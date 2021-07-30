@@ -19,5 +19,6 @@ services:
     image: mongo
     volumes:
     - ./data:/data/db
+    - src/node_modules
     ports:
     - "27017:27017"

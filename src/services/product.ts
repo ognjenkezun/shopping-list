@@ -1,5 +1,4 @@
-import { DocumentDefinition, FilterQuery } from "mongoose";
-import ShoppingList, { ShoppingListDocument } from "../database/models/shopping-list";
+import { DocumentDefinition } from "mongoose";
 import Product, { ProductDocument } from "../database/models/product";
 
 export const createProductService = async (product: DocumentDefinition<ProductDocument>) => {

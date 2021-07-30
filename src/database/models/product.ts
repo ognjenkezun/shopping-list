@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import ShoppingList, { ShoppingListDocument } from './shopping-list';
+import { ShoppingListDocument } from './shopping-list';
 
 export interface ProductDocument extends mongoose.Document {
     name: string;

@@ -4,8 +4,6 @@ import { createShoppingListService,
          getShoppingListByIdService, 
          statisticShoppingListService,
          updateShoppingListService } from "../services/shopping-list";
-import ShoppingListDocument from "../database/models/shopping-list";
-import mongoose from 'mongoose';
 import { MongooseHelper } from '../helpers/mongoose'
 
 export const createShoppingList = async (req: Request, res: Response) => {

@@ -44,6 +44,7 @@ export const loginUser = async (req: Request, res: Response) => {
 }
 
 export const updateUser = async (req: Request, res: Response) => {
+    
     if (!req.body.email || !req.body.password) {
         throw new Error('Please provide complete details');
     }

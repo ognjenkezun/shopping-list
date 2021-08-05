@@ -7,6 +7,10 @@ import { createShoppingListService,
 import { MongooseHelper } from '../helpers/mongoose';
 
 export const createShoppingList = async (req: Request, res: Response) => {
+    if (!req.body.name) {
+        throw new Error("Please provide complete details (name)");
+    }
+    
     try {
         const shoppingList = await createShoppingListService(req.body, req.body.user.id);
         if (shoppingList) {
@@ -53,10 +57,16 @@ export const getShoppingListById = async (req: Request, res: Response) => {
 }
 
 export const updateShoppingList = async (req: Request, res: Response) => {
+    
+    if (!req.body.name) {
+        throw new Error("Please provide complete details (name)");
+    }
+
+    const idString = req.params.id;
+    const id = MongooseHelper.getIdObjectFromString(idString);
+    const shoppingList = req.body;
+    
     try {
-        const idString = req.params.id;
-        const id = MongooseHelper.getIdObjectFromString(idString);
-        const shoppingList = req.body;
 
         if (id) {
             const updatedShoppingList = await updateShoppingListService(req.body.user, id, shoppingList);
@@ -73,9 +83,14 @@ export const updateShoppingList = async (req: Request, res: Response) => {
 }
 
 export const statisticShoppingList = async (req: Request, res: Response) => {
+    
+    if (!req.body.dateFrom || !req.body.dateTo) {
+        throw new Error('Please provide complete details (dateFrom and dateTo)');
+    }
+    
+    const { dateFrom, dateTo } = req.body;
+    
     try {
-        const { dateFrom, dateTo } = req.body;
-
         if (dateFrom != null && dateTo != null) {
             const shoppingList = await statisticShoppingListService(dateFrom, dateTo);
             if(!shoppingList) {

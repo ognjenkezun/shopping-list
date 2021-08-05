@@ -78,6 +78,7 @@ export const getShoppingListByIdService = async (id: any) => {
 }
 
 export const statisticShoppingListService = async (dateFrom: string, dateTo: string) => {
+    
     try {
         return await ShoppingList.aggregate([
             { $match: { createdAt: { $gte: new Date(dateFrom), $lte: new Date(dateTo) } } },

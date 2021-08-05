@@ -35,6 +35,7 @@ export const updateUserService = async (user: DocumentDefinition<UserDocument>, 
         const hash = await bcrypt.hashSync(password, salt);
 
         password = hash;
+        
         const userFound = await User.findOneAndUpdate({ email }, { password }, {new: true}, (err, doc) => {
             if (err) {
                 throw new Error("Something wrong when updating data!");
@@ -42,7 +43,7 @@ export const updateUserService = async (user: DocumentDefinition<UserDocument>, 
         });
 
         if (userFound) {
-            if (user.id === userFound.id) {
+            if (user.id == userFound.id) {
                 return userFound;
             }
 

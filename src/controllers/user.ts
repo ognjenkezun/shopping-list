@@ -5,11 +5,21 @@ import { createUserService,
          loginUserService } from "../services/user";
 
 export const createUser = async (req: Request, res: Response) => {
-    try {
-        const user = await createUserService(req.body);
-        return res.status(201).send(omit(user.toJSON(), "password"));
+    
+    if (!req.body.email || !req.body.password) {
+        throw new Error('Please provide complete details');
+    }
+
+    const user = await createUserService(req.body);
+
+    try { 
+        if (user) {
+            return res.status(201).send(omit(user.toJSON(), "password"));
+        }
+
+        throw new Error("User is not created");
     } catch (e) {
-        return res.status(409).send(e.message);
+        return res.status(500).send(e.message);
     }
 }
 
@@ -28,17 +38,22 @@ export const loginUser = async (req: Request, res: Response) => {
         }
 
         throw new Error('Pasword or email is not correct');
-    } catch (error) {
-        throw new Error('Error 400');
+    } catch (e) {
+        return res.status(500).send(e.message);
     }
 }
 
 export const updateUser = async (req: Request, res: Response) => {
+    if (!req.body.email || !req.body.password) {
+        throw new Error('Please provide complete details');
+    }
+
+    const { email, password } = req.body;
+
     try {
-        const { email, password } = req.body;
         const user = await updateUserService(req.body.user, email, password);
         return res.status(200).send(omit(user.toJSON(), "password"));
     } catch (e) {
-        return res.status(409).send(e.message);
+        return res.status(500).send(e.message);
     }
 }

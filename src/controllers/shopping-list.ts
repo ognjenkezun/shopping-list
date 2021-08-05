@@ -4,14 +4,18 @@ import { createShoppingListService,
          getShoppingListByIdService, 
          statisticShoppingListService,
          updateShoppingListService } from "../services/shopping-list";
-import { MongooseHelper } from '../helpers/mongoose'
+import { MongooseHelper } from '../helpers/mongoose';
 
 export const createShoppingList = async (req: Request, res: Response) => {
     try {
         const shoppingList = await createShoppingListService(req.body, req.body.user.id);
-        return res.status(201).json(shoppingList);
+        if (shoppingList) {
+            return res.status(201).json(shoppingList);
+        }
+
+        throw new Error("Shopping list is not created");
     } catch (e) {
-        return res.status(409).send(e.message);
+        return res.status(500).send(e.message);
     }
 }
 

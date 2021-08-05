@@ -31,8 +31,8 @@ export class JWT {
             else {
                 res.status(401).json({ statusCode: 400, message: "Token is invalid" });
             }
-        } catch (error) {
-            throw new Error("Error in authentication");
+        } catch (e) {
+            res.status(500).send(e.message);
         }
     }
 }

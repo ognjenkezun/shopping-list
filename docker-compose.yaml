@@ -1,24 +1,17 @@
 version: "3.5"
 services:
-  node:
+  api:
     build: .
-    container_name: shopping-service
-    environment:
-      - NODE_ENV=development
-      - PORT=3200
-    volumes:
-      - .:/app
-    working_dir: /app
     ports:
-      - 3200:3200
-    command: "npm run dev"
+    - "3200:3200"
+    environment:
+      - SECRET=ps120fadrn58d9aw
+      - APP_PORT=3200
+      - APP_HOST=localhost
+      - DB_URI=mongodb://db:27017/shopping-list
     depends_on:
-      - mongo
-  mongo:
-    container_name: mongo
+    - mongo
+  db:
     image: mongo
-    volumes:
-    - ./data:/data/db
-    - src/node_modules
     ports:
     - "27017:27017"

@@ -9,3 +9,23 @@ export const createProductService = async (product: DocumentDefinition<ProductDo
         throw new Error(error);
     }
 }
+
+export const deleteProductService = async (id: any) => {
+    try {
+        const findedProduct = await Product.findById({ _id: id });
+
+        if (findedProduct) {
+            await Product.deleteOne({ _id: id }, err => {
+                if(err) {
+                    throw new Error(err.message);
+                }
+            });
+        }
+        else {
+            throw new Error("Product is not find");
+        }
+
+    } catch (error) {
+        throw new Error(error);
+    }
+}

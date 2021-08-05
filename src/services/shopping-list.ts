@@ -22,8 +22,8 @@ export const deleteShoppingListService = async (user: DocumentDefinition<UserDoc
         const findedShoppingList = await ShoppingList.findById({ _id: id });
 
         if (findedShoppingList) {
-            if (findedShoppingList.userId === user.id) {
-                await ShoppingList.findOneAndDelete({ _id: id }, null, err => {
+            if (findedShoppingList.userId == user.id) {
+                await ShoppingList.deleteOne({ _id: id }, err => {
                     if(err) {
                         throw new Error(err.message);
                     }
@@ -47,8 +47,8 @@ export const updateShoppingListService = async (user: DocumentDefinition<UserDoc
         const findedShoppingList = await ShoppingList.findById({ _id: id });
 
         if (findedShoppingList) {
-            if (findedShoppingList.userId === user.id) {
-                const updatedShoppingList = await ShoppingList.findOneAndUpdate({ _id: id }, { name: shoppingList.name, productList: shoppingList.productList }, {new: true}, err => {
+            if (findedShoppingList.userId == user.id) {
+                const updatedShoppingList = await ShoppingList.updateOne({ _id: id }, { name: shoppingList.name, productList: shoppingList.productList }, {new: true}, err => {
                     if (err) {
                         throw new Error("Something wrong when updating data!");
                     }
@@ -77,9 +77,20 @@ export const getShoppingListByIdService = async (id: any) => {
     }
 }
 
-export const statisticShoppingListService = async (dateFrom: any, dateTo: any) => {
+export const statisticShoppingListService = async (dateFrom: string, dateTo: string) => {
     try {
-        return await ShoppingList.find({ });
+        return await ShoppingList.aggregate([
+            { $match: { createdAt: { $gte: new Date(dateFrom), $lte: new Date(dateTo) } } },
+            { $unwind: { path: "$productList" } },
+            {
+                $group: { _id: "$productList.productId",
+                          productName: { $first: "$productList.productName" },
+                          amount: { $sum: "$productList.amount" } 
+                }
+            },
+            { $sort: { amount: -1 } }
+        ]);
+
     } catch (error) {
         throw new Error(error);
     }

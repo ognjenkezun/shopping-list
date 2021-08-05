@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 export const connect = () => {
-    const dbUri = "mongodb://localhost:27017/shopping-list";
+    const dbUri = process.env.DB_URI || 'mongodb://localhost:27017/shopping-list';
 
     return mongoose.connect(dbUri, {
        useNewUrlParser: true,

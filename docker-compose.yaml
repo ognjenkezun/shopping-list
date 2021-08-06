@@ -10,7 +10,7 @@ services:
       - APP_HOST=localhost
       - DB_URI=mongodb://db:27017/shopping-list
     depends_on:
-    - mongo
+    - db
   db:
     image: mongo
     ports:

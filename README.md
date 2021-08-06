@@ -49,7 +49,7 @@ To create shopping list you must set jwt token in header and call method POST on
     }]
 }
 
-Name is required and unique.
+Name is required and unique. In productList, productId is existing product in Product document.
 
 To view statistic you must call GET method of api 'http://localhost:3200/shopping-list/statistic' and send data in format {
     "dateFrom": "",

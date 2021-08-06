@@ -84,10 +84,6 @@ export const updateShoppingList = async (req: Request, res: Response) => {
 
 export const statisticShoppingList = async (req: Request, res: Response) => {
     
-    if (!req.body.dateFrom || !req.body.dateTo) {
-        throw new Error('Please provide complete details (dateFrom and dateTo)');
-    }
-    
     const { dateFrom, dateTo } = req.body;
     
     try {
